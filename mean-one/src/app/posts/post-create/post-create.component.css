@@ -2,3 +2,7 @@ mat-card, form {
   display: flex;
   flex-direction: column;
 }
+
+mat-spinner {
+  margin: auto;
+}
