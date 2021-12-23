@@ -25,21 +25,33 @@ const storage = multer.diskStorage({
   },
 });
 
-router.get("/api/posts", async (req, res, next) => {
-  let posts;
-  await Post.find()
-    .then((documents) => (posts = documents))
+router.get("/api/posts", (req, res, next) => {
+  const pageSize = +req.query.pageSize;
+  const currentPage = +req.query.currentPage;
+  const postQuery = Post.find();
+  let fetchedPosts;
+  if (pageSize && currentPage) {
+    postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
+  postQuery
+    .then((documents) => {
+      fetchedPosts = documents;
+      return Post.count();
+    })
+    .then((count) => {
+      res.status(200).json({
+        message: "Posts fetched successfully",
+        posts: fetchedPosts,
+        maxPosts: count,
+      });
+    })
     .catch(console.log);
-  res.status(200).json({
-    message: "Posts fetched successfully",
-    posts: posts,
-  });
 });
 
 router.get("/api/posts/:id", (req, res, next) => {
   Post.findById(req.params.id).then((post) => {
     if (!post) return res.status(404).json({ message: "Post not found!" });
-    setTimeout(() => res.status(200).json(post), 2000);
+    res.status(200).json(post);
   });
 });
 
