@@ -1,17 +1,11 @@
 const path = require("path");
-const mongoose = require("mongoose");
+const postRoutes = require("./routes/posts");
+require("./db/connection");
+require("dotenv").config();
 const express = require("express");
 
 const app = express();
-
-const postRoutes = require("./routes/posts");
-
-mongoose
-  .connect(
-    "mongodb+srv://emersonnobrer:56642202Egr.@cluster0.srcqf.mongodb.net/node-angular?retryWrites=true&w=majority"
-  )
-  .then(() => console.log("Connected to the db"))
-  .catch(console.log);
+const PORT = process.env.APP_PORT;
 
 app.use(express.json());
 app.use("/images", express.static(path.join("backend/images")));
@@ -31,4 +25,4 @@ app.use((req, res, next) => {
 
 app.use(postRoutes);
 
-module.exports = app;
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

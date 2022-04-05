@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "dev": "nodemon server.js"
+    "dev": "nodemon backend/app.js"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.13",
     "multer": "^1.4.4",
@@ -29,7 +30,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.0.3",
+    "@angular-devkit/build-angular": "^13.3.1",
     "@angular/cli": "~13.0.3",
     "@angular/compiler-cli": "~13.0.0",
     "@types/jasmine": "~3.10.0",

@@ -48,7 +48,7 @@ router.get("/api/posts", (req, res, next) => {
     .catch(console.log);
 });
 
-router.get("/api/posts/:id", (req, res, next) => {
+router.get("/api/posts/:id", (req, res) => {
   Post.findById(req.params.id).then((post) => {
     if (!post) return res.status(404).json({ message: "Post not found!" });
     res.status(200).json(post);
@@ -58,7 +58,7 @@ router.get("/api/posts/:id", (req, res, next) => {
 router.post(
   "/api/posts",
   multer({ storage: storage }).single("image"),
-  (req, res, next) => {
+  (req, res) => {
     const url = `${req.protocol}://${req.get("host")}`;
     const post = new Post({
       title: req.body.title,
@@ -80,7 +80,7 @@ router.post(
 router.put(
   "/api/posts/:id",
   multer({ storage: storage }).single("image"),
-  (req, res, next) => {
+  (req, res) => {
     let imagePath = req.body.imagePath;
     if (req.file) {
       const url = `${req.protocol}://${req.get("host")}`;
@@ -98,7 +98,7 @@ router.put(
   }
 );
 
-router.delete("/api/posts/:id", (req, res, next) => {
+router.delete("/api/posts/:id", (req, res) => {
   Post.deleteOne({ _id: req.params.id })
     .then(() => res.status(204).json({ message: "Deleted!" }))
     .catch(console.log);

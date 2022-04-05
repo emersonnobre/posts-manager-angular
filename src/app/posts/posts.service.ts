@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class PostsService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<{ posts: Post[]; maxPosts: number }>();
-  private baseUrl: string = 'http://localhost:3000/api/posts';
+  private baseUrl: string = 'http://localhost:3338/api/posts';
 
   constructor(private http: HttpClient, private router: Router) {}
 
