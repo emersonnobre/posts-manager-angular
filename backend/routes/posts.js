@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
   },
 });
 
-router.get("/api/posts", (req, res, next) => {
+router.get("/", (req, res, next) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.currentPage;
   const postQuery = Post.find();
@@ -48,7 +48,7 @@ router.get("/api/posts", (req, res, next) => {
     .catch(console.log);
 });
 
-router.get("/api/posts/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   Post.findById(req.params.id).then((post) => {
     if (!post) return res.status(404).json({ message: "Post not found!" });
     res.status(200).json(post);
@@ -56,7 +56,7 @@ router.get("/api/posts/:id", (req, res) => {
 });
 
 router.post(
-  "/api/posts",
+  "/",
   multer({ storage: storage }).single("image"),
   (req, res) => {
     const url = `${req.protocol}://${req.get("host")}`;
@@ -78,7 +78,7 @@ router.post(
 );
 
 router.put(
-  "/api/posts/:id",
+  "/:id",
   multer({ storage: storage }).single("image"),
   (req, res) => {
     let imagePath = req.body.imagePath;
@@ -98,7 +98,7 @@ router.put(
   }
 );
 
-router.delete("/api/posts/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   Post.deleteOne({ _id: req.params.id })
     .then(() => res.status(204).json({ message: "Deleted!" }))
     .catch(console.log);

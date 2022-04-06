@@ -1,8 +1,9 @@
+const express = require("express");
 const path = require("path");
-const postRoutes = require("./routes/posts");
 require("./db/connection");
 require("dotenv").config();
-const express = require("express");
+const postRoutes = require("./routes/posts");
+const userRoutes = require("./routes/user");
 
 const app = express();
 const PORT = process.env.APP_PORT;
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(postRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
