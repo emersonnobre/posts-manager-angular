@@ -4,6 +4,7 @@ const multer = require("multer");
 const router = express.Router();
 
 const Post = require("../models/post");
+const authentication = require("../middlewares/authentication");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -25,7 +26,7 @@ const storage = multer.diskStorage({
   },
 });
 
-router.get("/", (req, res, next) => {
+router.get("/", authentication, (req, res) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.currentPage;
   const postQuery = Post.find();

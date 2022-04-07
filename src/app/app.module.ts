@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,11 +14,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
-import { PostCreateComponent } from './posts/post-create/post-create.component';
+import { PostCreateComponent } from './posts/components/post-create/post-create.component';
 import { HeaderComponent } from './header/header.component';
-import { PostListComponent } from './posts/post-list/post-list.component';
-import { SigninComponent } from './auth/signin/signin.component';
-import { SignupComponent } from './auth/signup/signup.component';
+import { PostListComponent } from './posts/components/post-list/post-list.component';
+import { SigninComponent } from './auth/components/signin/signin.component';
+import { SignupComponent } from './auth/components/signup/signup.component';
+import { AuthInterceptor } from './shared/auth-inteceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { SignupComponent } from './auth/signup/signup.component';
     MatPaginatorModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
