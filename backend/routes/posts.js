@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
   },
 });
 
-router.get("/", authentication, (req, res) => {
+router.get("/", (req, res) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.currentPage;
   const postQuery = Post.find();
@@ -56,8 +56,8 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.post(
-  "/",
+router.post("/",
+  authentication,
   multer({ storage: storage }).single("image"),
   (req, res) => {
     const url = `${req.protocol}://${req.get("host")}`;
@@ -78,8 +78,8 @@ router.post(
   }
 );
 
-router.put(
-  "/:id",
+router.put("/:id",
+  authentication,
   multer({ storage: storage }).single("image"),
   (req, res) => {
     let imagePath = req.body.imagePath;
@@ -99,7 +99,7 @@ router.put(
   }
 );
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", authentication, (req, res) => {
   Post.deleteOne({ _id: req.params.id })
     .then(() => res.status(204).json({ message: "Deleted!" }))
     .catch(console.log);
