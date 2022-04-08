@@ -42,8 +42,9 @@ async function login(email, password) {
     }
 
     const token = jwt.sign({ email: email, id: userDb._id }, process.env.TOKEN_SECRET_API, { expiresIn: "1h" })
+    const expiresIn = 3600; // seconds
 
-    return response(statusCode.OK, { token }, "Login succeed!")
+    return response(statusCode.OK, { token, expiresIn }, "Login succeed!")
 }
 
 module.exports = {
