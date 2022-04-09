@@ -1,50 +1,52 @@
-const response = require("../util/DTO/responseDTO");
-const statusCode = require("../util/enum/statusCode");
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 const User = require("../models/user");
+const response = require("../util/DTO/responseDTO");
+const { OK, INTERNAL_ERROR, BAD_REQUEST, CREATED, } = require("../util/enum/statusCode");
 
-async function saveUser(user) {
-    if (!user.email || !user.password)
-        return response(statusCode.BAD_REQUEST, null, "Insert you e-mail and password")
+async function saveUser(email, password) {
+    if (!email || !password) {
+        return response(BAD_REQUEST, null, "Insert you e-mail and password");
+    }
 
-    const hash = await bcrypt.hash(user.password, 10)
+    const hash = await bcrypt.hash(password, 10);
 
     const userModel = new User({
-        email: user.email,
+        email: email,
         password: hash,
     });
 
     try {
-        const result = await userModel.save()
-        return response(statusCode.CREATED, result, "User created")
+        const result = await userModel.save();
+        return response(CREATED, result, "User created");
     } catch (err) {
-        return response(statusCode.INTERNAL_ERROR, null, err)
+        return response(INTERNAL_ERROR, null, err);
     }
 }
 
 async function login(email, password) {
     if (!email || !password) {
-        return response(statusCode.BAD_REQUEST, null, "Insert you e-mail and password")
+        return response(BAD_REQUEST, null, "Insert you e-mail and password");
     }
 
-    const userDb = await User.findOne({ email: email })
+    const userDb = await User.findOne({ email: email });
 
     if (!userDb) {
-        return response(statusCode.UNAUTHORIZED, null, "Authentication failed")
+        return response(UNAUTHORIZED, null, "Authentication failed");
     }
 
-    const passwordCheck = await bcrypt.compare(password, userDb.password)
+    const passwordCheck = await bcrypt.compare(password, userDb.password);
 
     if (!passwordCheck) {
-        return response(statusCode.UNAUTHORIZED, null, "Authentication failed")
+        return response(UNAUTHORIZED, null, "Authentication failed");
     }
 
-    const token = jwt.sign({ email: email, id: userDb._id }, process.env.TOKEN_SECRET_API, { expiresIn: "1h" })
+    const token = jwt.sign({ email: email, id: userDb._id }, process.env.TOKEN_SECRET_API, { expiresIn: "1h" });
+    const userId = userDb._id;
     const expiresIn = 3600; // seconds
 
-    return response(statusCode.OK, { token, expiresIn }, "Login succeed!")
+    return response(OK, { userId, token, expiresIn }, "Login succeed!");
 }
 
 module.exports = {
