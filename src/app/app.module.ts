@@ -1,25 +1,28 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AppRoutingModule } from "./app-routing.module";
 
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatDialogModule } from "@angular/material/dialog";
 
-import { AppComponent } from './app.component';
-import { PostCreateComponent } from './posts/components/post-create/post-create.component';
-import { HeaderComponent } from './header/header.component';
-import { PostListComponent } from './posts/components/post-list/post-list.component';
-import { SigninComponent } from './auth/components/signin/signin.component';
-import { SignupComponent } from './auth/components/signup/signup.component';
-import { AuthInterceptor } from './shared/auth-inteceptor';
+
+import { AppComponent } from "./app.component";
+import { PostCreateComponent } from "./posts/components/post-create/post-create.component";
+import { HeaderComponent } from "./header/components/header.component";
+import { PostListComponent } from "./posts/components/post-list/post-list.component";
+import { SigninComponent } from "./auth/components/signin/signin.component";
+import { SignupComponent } from "./auth/components/signup/signup.component";
+import { AuthInterceptor } from "./auth/auth-inteceptor";
+import { ErrorInterceptor } from "./error/error-interceptor";
 
 @NgModule({
   declarations: [
@@ -44,9 +47,11 @@ import { AuthInterceptor } from './shared/auth-inteceptor';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     HttpClientModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

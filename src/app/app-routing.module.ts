@@ -4,7 +4,7 @@ import { SigninComponent } from "./auth/components/signin/signin.component";
 import { SignupComponent } from "./auth/components/signup/signup.component";
 import { PostCreateComponent } from "./posts/components/post-create/post-create.component";
 import { PostListComponent } from "./posts/components/post-list/post-list.component";
-import { AuthGuard } from "./shared/auth.guard";
+import { AuthGuard } from "./auth/auth.guard";
 
 
 const routes: Routes = [

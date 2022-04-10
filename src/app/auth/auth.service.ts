@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
-import { ResponseApi } from "../shared/models/response-api.model";
-import { AuthData } from "./auth-data.model";
+import { ResponseApi } from "./models/response-api.model";
+import { AuthData } from "./models/auth-data.model";
 
 @Injectable({
     providedIn: 'root',
@@ -37,8 +37,14 @@ export class AuthService {
     createUser(email: string, password: string): void {
         const authData: AuthData = { email: email, password: password };
         this.http.post<ResponseApi>(`${this.baseUrl}/signup`, authData)
-            .subscribe(response => {
-                this.token = response.data.token;
+            .subscribe({
+                next: response => {
+                    this.token = response.data.token;
+                    this.router.navigateByUrl("/login");
+                },
+                error: () => {
+                    this.authListener.next(false);
+                },
             });
     }
 

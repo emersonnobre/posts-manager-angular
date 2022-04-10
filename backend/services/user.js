@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const response = require("../util/DTO/responseDTO");
-const { OK, INTERNAL_ERROR, BAD_REQUEST, CREATED, } = require("../util/enum/statusCode");
+const { OK, INTERNAL_ERROR, BAD_REQUEST, CREATED, UNAUTHORIZED, } = require("../util/enum/statusCode");
 
 async function saveUser(email, password) {
     if (!email || !password) {
