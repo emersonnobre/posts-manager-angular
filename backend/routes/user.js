@@ -1,17 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const userService = require("../services/user");
+const userController = require("../controllers/user");
 
-router.post("/signup", async (req, res) => {
-    const result = await userService.saveUser(req.body.email, req.body.password);
+router.post("/signup", userController.signup);
 
-    res.status(result.status).json(result);
-});
-
-router.post("/login", async (req, res) => {
-    const result = await userService.login(req.body.email, req.body.password);
-
-    res.status(result.status).json(result);
-});
+router.post("/login", userController.login);
 
 module.exports = router;

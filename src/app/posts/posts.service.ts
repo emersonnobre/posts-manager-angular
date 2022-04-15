@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Post } from "./models/post.model";
+import { ResponseApi } from "../auth/models/response-api.model";
 
 @Injectable({
 	providedIn: "root",
@@ -46,13 +47,7 @@ export class PostsService {
 	}
 
 	getPost(id: string) {
-		return this.http.get<{
-			_id: string;
-			title: string;
-			content: string;
-			imagePath: string;
-			creator: string;
-		}>(`${this.baseUrl}/${id}`);
+		return this.http.get<ResponseApi>(`${this.baseUrl}/${id}`);
 	}
 
 	addPost(title: string, content: string, image: File): void {
