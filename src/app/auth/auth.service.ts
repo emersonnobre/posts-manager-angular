@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
+import { environment } from "../../environments/environment";
 import { ResponseApi } from "./models/response-api.model";
 import { AuthData } from "./models/auth-data.model";
 
@@ -9,7 +10,7 @@ import { AuthData } from "./models/auth-data.model";
     providedIn: 'root',
 })
 export class AuthService {
-    private baseUrl: string = "http://localhost:3338/api/user";
+    private baseUrl: string = `${environment.apiUrl}/user`;
     private authStatus = false;
     private authListener = new Subject<boolean>();
     private token: string;

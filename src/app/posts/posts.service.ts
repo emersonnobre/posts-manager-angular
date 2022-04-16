@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 import { Post } from "./models/post.model";
 import { ResponseApi } from "../auth/models/response-api.model";
 
@@ -12,7 +13,7 @@ import { ResponseApi } from "../auth/models/response-api.model";
 export class PostsService {
 	private posts: Post[] = [];
 	private postsUpdated = new Subject<{ posts: Post[]; maxPosts: number }>();
-	private baseUrl: string = "http://localhost:3338/api/posts";
+	private baseUrl: string = `${environment.apiUrl}/posts`;
 
 	constructor(private http: HttpClient, private router: Router) { }
 

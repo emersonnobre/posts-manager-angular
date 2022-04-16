@@ -53,7 +53,7 @@ async function updatePost(title, content, imagePath, creator, postId) {
 
     try {
         const result = await Post.updateOne({ _id: postId, creator: creator }, post);
-        if (result.modifiedCount == 0)
+        if (result.matchedCount == 0)
             return response(UNAUTHORIZED, null, "You have not permission to update this post!");
         return response(OK, null, "Update successful!");
     } catch(error) {
